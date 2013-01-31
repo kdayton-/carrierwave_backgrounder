@@ -28,10 +28,10 @@ module CarrierWave
           super
 
           define_method :"#{column}_updated?" do
-            send(:"#{column}_changed?") ||              # after_save support
-            previous_changes.has_key?(:"#{column}") ||  # after_commit support
-            send(:"remote_#{column}_url").present? ||   # Remote upload support
-            send(:"#{column}_cache").present?           # Form failure support
+            send(:"#{column}_changed?") ||                    # after_save support
+            previous_changes.try(:has_key?, :"#{column}") ||  # after_commit support
+            send(:"remote_#{column}_url").present? ||         # Remote upload support
+            send(:"#{column}_cache").present?                 # Form failure support
           end
         end
       end # ActiveModel
